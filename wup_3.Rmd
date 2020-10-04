@@ -20,14 +20,14 @@ davisdata <- read.csv(file="UCDavis.csv")
 ## Now with ggplot - first select the basic data
 
 ```{r}
-basicCN <- ggplot(davisdata,aes(y=alcohol,x=Seat))
+basicCN <- ggplot(ucdavis1,aes(y=alcohol,x=Seat))
 ```
 ## Now add in boxplot
-
 ```{r}
-basicCN + geom_boxplot()
+plot(alcohol~Seat,data=ucdavis1)
 ```
   
+  People in the back are drinking the most.  
   
 ### get fancy  
 
@@ -36,9 +36,22 @@ basicCN + geom_boxplot(notch=TRUE,outlier.color = "red") + stat_boxplot(geom ='e
 ```
 
 ## Numerical Summarys 
-
+```{r}
+favstats(alcohol~Seat,data=ucdavis1)
+```
 ## Inferential Tests
 
+```{r}
+model1 <- aov(alcohol~Seat,data=ucdavis1)
+summary.aov(model1)
+```
+The P value is 0.000353 < 0.05 that means you reject the null hypothesis.
+
+```{r}
+plot(TukeyHSD(model1))
+```
 ## Conclusions
 
+There is no difference the average alcohol consumption between middle and the front.
 
+There is a difference in the average alcohol consumption between the middle and back rows. 0 is not the interval there is a difference between the average alcohol consumption between the front and the back rows.
